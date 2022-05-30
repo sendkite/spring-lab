@@ -73,3 +73,14 @@ jdbc:h2:tcp://localhost/~/test
 
 1) DB JDBC Driver 설정 
 2) JDBC > Driver Manager : 드라이버를 관리, 커넥션 획득 (연결 구현체를 찾아서 DB 읽고 반환.)
+
+
+#### 2.2 JDBC SQL 조작
+
+1) 커텍션 획득 
+2) PreparedStatement 이용해서 sql 작성, SQL 실행
+3) Close! Connection, PreparedStatement, ResultSet Close. 
+
+와.. 너무 귀찮아
+
+
