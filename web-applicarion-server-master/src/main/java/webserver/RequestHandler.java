@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.Socket;
+import java.nio.file.Files;
 
 public class RequestHandler extends Thread {
     private static final Logger log = LoggerFactory.getLogger(RequestHandler.class);
@@ -26,23 +27,14 @@ public class RequestHandler extends Thread {
                 return;
             }
 
-            while (!"".equals(line)) {
-                log.debug("header: {}", line);
-                line = br.readLine();
-            }
+            String[] split = line.split(" ");
+            String path = split[1];
+            log.debug("request url: {}", path);
+
             DataOutputStream dos = new DataOutputStream(out);
-            byte[] body = "hello world!!".getBytes();
+            byte[] body = Files.readAllBytes(new File("./webapp" + path).toPath());
             response200Header(dos, body.length);
             responseBody(dos, body);
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
-    }
-
-    private void responseBody(DataOutputStream dos, byte[] body) {
-        try {
-            dos.write(body, 0, body.length);
-            dos.flush();
         } catch (IOException e) {
             log.error(e.getMessage());
         }
@@ -54,6 +46,15 @@ public class RequestHandler extends Thread {
             dos.writeBytes("Content-Type: text/html;charset=utf-8\r\n");
             dos.writeBytes("Content-Length: " + lengthOfBodyContent + "\r\n");
             dos.writeBytes("\r\n");
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
+    }
+
+    private void responseBody(DataOutputStream dos, byte[] body) {
+        try {
+            dos.write(body, 0, body.length);
+            dos.flush();
         } catch (IOException e) {
             log.error(e.getMessage());
         }
