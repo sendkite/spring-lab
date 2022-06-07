@@ -10,7 +10,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * 트랜젝션 적용 - 파라미터, 풀 적용
+ * 트랜젝션 적용 - 파라미터, 풀 적용 (서비스층이 JDBC 기술에 종속적인 문제)
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -37,7 +37,7 @@ public class MemberServiceV2 {
     private void release(Connection con) {
         if (con != null) {
             try {
-                con.setAutoCommit(true); // 커넥션 풀 고려
+                con.setAutoCommit(true); // ** 커넥션 풀이 계속 살아있어서 기본 값으로 변경하고 닫아야함
                 con.close();
             } catch (Exception e) {
                 log.info("error", e);

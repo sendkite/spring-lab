@@ -4,7 +4,6 @@ import com.springlab.jdbc.domain.Member;
 import com.springlab.jdbc.repository.MemberRepositoryV1;
 import lombok.RequiredArgsConstructor;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @RequiredArgsConstructor
@@ -12,7 +11,7 @@ public class MemberServiceV1 {
 
     private final MemberRepositoryV1 memberRepositoryV1;
 
-    public void accountTransfer(String fromId, String toId, int money) throws SQLException {
+    public void accountTransfer(String fromId, String toId, int money) throws SQLException { // SQL Exception 은 JDBC 종속되는 예외이다.
         Member fromMember = memberRepositoryV1.findById(fromId);
         Member toMember = memberRepositoryV1.findById(toId);
 
