@@ -4,6 +4,7 @@ import com.springlab.jdbc.domain.Member;
 import com.springlab.jdbc.repository.MemberRepositoryV1;
 import lombok.RequiredArgsConstructor;
 
+import javax.sql.DataSource;
 import java.sql.SQLException;
 
 @RequiredArgsConstructor
@@ -18,8 +19,6 @@ public class MemberServiceV1 {
         memberRepositoryV1.update(fromId, fromMember.getMoney() - money);
         validation(toMember);
         memberRepositoryV1.update(toId, toMember.getMoney() + money);
-
-
     }
 
     private void validation(Member toMember) {
