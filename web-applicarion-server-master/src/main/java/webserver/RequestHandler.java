@@ -3,10 +3,7 @@ package webserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.Socket;
 
 public class RequestHandler extends Thread {
@@ -22,9 +19,19 @@ public class RequestHandler extends Thread {
         log.debug("New Client Connect! Connected IP : {}, Port : {}", connection.getInetAddress(), connection.getPort());
 
         try (InputStream in = connection.getInputStream(); OutputStream out = connection.getOutputStream()) {
-            // TODO 사용자 요청 처리 이곳에 구현
+            InputStreamReader reader = new InputStreamReader(in, "UTF-8");
+            BufferedReader br = new BufferedReader(reader);
+            String line = br.readLine();
+            if (line == null) {
+                return;
+            }
+
+            while (!"".equals(line)) {
+                log.debug("header: {}", line);
+                line = br.readLine();
+            }
             DataOutputStream dos = new DataOutputStream(out);
-            byte[] body = "Hello World".getBytes();
+            byte[] body = "hello world!!".getBytes();
             response200Header(dos, body.length);
             responseBody(dos, body);
         } catch (IOException e) {
