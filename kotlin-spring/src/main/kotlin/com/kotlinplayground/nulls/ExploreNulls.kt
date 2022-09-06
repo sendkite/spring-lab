@@ -9,17 +9,21 @@ data class Movie(
 fun main() {
     // ? 사용할 경우만 nullable
     var nameNullable : String? = null
-    println(nameNullable)
+    println("Value is : ${nameNullable?.length}") // safe operator
 
     nameNullable = "Bryce"
-    println(nameNullable)
+    // val length = nameNullable?.length?.toLong() ?: 0// Elvis operator
+    val length = nameNullable.length.toLong()
+    println("length : $length")
 
     val movie = Movie(null, "Avengers")
     val savedMovie = saveMovie(movie)
+    println(savedMovie.id!!) // non null assertions !!
     println("Saved Movie : $savedMovie")
 
 }
 
 fun saveMovie(movie: Movie) : Movie {
-    return movie.copy(id = 1)
+    // return movie.copy(id = 1)
+    return movie
 }
